@@ -1,20 +1,42 @@
 version: "3.8"
 services:
+  proxy:
+    image: traefik:2.2
+    command: --providers.docker
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
   app:
     build:
       context: .
-      target: dev
+      target: backend-dev
     volumes:
       - nodemodules:/app/node_modules
-      - ./:/app
+      - ./backend:/app
       - ./config:/config
     environment:
       MYSQL_HOST: mysql
       MYSQL_USER_FILE: /config/MYSQL_USER
       MYSQL_PASSWORD_FILE: /config/MYSQL_PASSWORD
       MYSQL_DB_FILE: /config/MYSQL_DB
-    ports:
-      - 3000:3000
+    labels:
+      traefik.http.routers.backend.rule: Host(`localhost`) && PathPrefix(`/items`)
+      traefik.http.services.backend.loadbalancer.server.port: 3000
+
+  frontend:
+    build:
+      context: .
+      target: frontend-base
+    stdin_open: true
+    volumes:
+      - nodemodules-frontend:/app/node_modules
+      - ./frontend:/app
+    labels:
+      traefik.http.routers.frontend.rule: Host(`localhost`)
+      traefik.http.services.frontend.loadbalancer.server.port: 3000
+    
 
   mysql:
     image: mysql:5.7
@@ -26,7 +48,8 @@ services:
       MYSQL_PASSWORD_FILE: /config/MYSQL_PASSWORD
       MYSQL_DATABASE_FILE: /config/MYSQL_DB
       MYSQL_RANDOM_ROOT_PASSWORD: "true"
-      
+
 volumes:
   nodemodules:
+  nodemodules-frontend:
   mysql-data:
