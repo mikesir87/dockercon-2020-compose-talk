@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  app:
+    image: dc2020
+    volumes:
+      - ./config:/config
+    depends_on: 
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER_FILE: /config/MYSQL_USER
+      MYSQL_PASSWORD_FILE: /config/MYSQL_PASSWORD
+      MYSQL_DB_FILE: /config/MYSQL_DB
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./config:/config
+    environment:
+      MYSQL_USER_FILE: /config/MYSQL_USER
+      MYSQL_PASSWORD_FILE: /config/MYSQL_PASSWORD
+      MYSQL_DATABASE_FILE: /config/MYSQL_DB
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+
+  tests:
+    image: dc2020-tests
+    depends_on: 
+      - app
+      - mysql
+    environment:
+      API_HOST: app

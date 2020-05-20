@@ -1,0 +1,6 @@
+FROM node:lts-alpine
+WORKDIR /app
+COPY api-tests/package.json api-tests/yarn.lock ./
+RUN yarn install && yarn cache clean
+COPY api-tests/spec ./spec
+CMD ["yarn", "test"]

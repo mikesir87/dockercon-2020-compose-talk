@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "test": "wait-on http://$API_HOST:3000/items && jest"
+  },
+  "dependencies": {
+    "jest": "^26.0.1",
+    "node-fetch": "^2.6.0",
+    "wait-on": "5.0.0"
+  }
+}
