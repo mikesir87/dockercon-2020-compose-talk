@@ -7,7 +7,26 @@ services:
     volumes:
       - nodemodules:/app/node_modules
       - ./:/app
+      - ./config:/config
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER_FILE: /config/MYSQL_USER
+      MYSQL_PASSWORD_FILE: /config/MYSQL_PASSWORD
+      MYSQL_DB_FILE: /config/MYSQL_DB
     ports:
       - 3000:3000
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./config:/config
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_USER_FILE: /config/MYSQL_USER
+      MYSQL_PASSWORD_FILE: /config/MYSQL_PASSWORD
+      MYSQL_DATABASE_FILE: /config/MYSQL_DB
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      
 volumes:
   nodemodules:
+  mysql-data:
