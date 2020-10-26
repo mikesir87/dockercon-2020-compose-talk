@@ -4,7 +4,7 @@ This repo contains the resources I used for my DockerCon 2020 talk.
 
 ## Links
 
-- Talk (link coming soon)
+- [Talk](https://www.youtube.com/watch?v=QeQ2MH5f_BE)
 - [Slides](https://docs.google.com/presentation/d/1HqEPAjQgiuyWUf7ere9b66xXsIf4I44JYKit9bRRNKw/edit?usp=sharing)
 
 ## Tags
