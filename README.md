@@ -17,3 +17,8 @@ Throughout the talk, we follow an application as it evolves. The tags below prov
 1. split-frontend
 1. api-tests
 
+
+
+### Infrastructure model
+
+![Infrastructure model](.infragenie/infrastructure_model.png)
